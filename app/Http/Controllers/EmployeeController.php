@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Bookings\ScheduleAvailbaility;
 use App\Models\Employee;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+
     public function index()
     {
         $employee = Employee::find(1);
         $service = Service::find(1);
-        $availability = (new ScheduleA vailbaility($employee, $service))
+        $availability = (new ScheduleAvailbaility($employee, $service))
                         ->forPeriod(
                             now()->startOfDay(),
                             now()->addMonth()->endOfDay()
