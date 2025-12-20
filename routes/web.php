@@ -8,14 +8,14 @@ use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
-// Carbon::setTestNow(now()->setTimeFromTimeString('1:00:00'));
+Carbon::setTestNow(Carbon::tomorrow()->setTimeFromTimeString('1:00:00'));
 Route::resource('/employee', EmployeeController::class);
 
 
 Route::get('/', function () {
   $employees = Employee::get();
 
-  $service = Service::first();
+  $service = Service::find(2);
   $availability = (new ServiceSlotAvailability($employees, $service))
     ->forPeriod(now()->startOfDay(), now()->addDay()->endOfDay());
 
