@@ -43,8 +43,10 @@ class ScheduleAvailbaility
 
     foreach($this->periods as $period)
     {
-      dump($period->asString());
+      // dump($period->asString());
     }
+
+    return $this->periods;
   }
 
   protected function addAvailabilityFromSchedule(Carbon $date)

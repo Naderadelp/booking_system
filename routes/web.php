@@ -1,7 +1,10 @@
 <?php
 
+use App\Bookings\ServiceSlotAvailability;
 use App\Bookings\SlotRangeGenerator;
 use App\Http\Controllers\EmployeeController;
+use App\Models\Employee;
+use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +13,15 @@ Route::resource('/employee', EmployeeController::class);
 
 
 Route::get('/', function () {
-    $generator = (new SlotRangeGenerator(now()->startOfDay(), now()->addDay()->endOfDay()));
-      dd($generator->generate(30) );
+  $employees = Employee::get();
+
+  $service = Service::first();
+  $availability = (new ServiceSlotAvailability($employees, $service))
+    ->forPeriod(now()->startOfDay(), now()->addDay()->endOfDay());
+
+  dd($availability);
+
+
+    // $generator = (new SlotRangeGenerator(now()->startOfDay(), now()->addDay()->endOfDay()));
+      // dd($generator->generate(30) );
 });
