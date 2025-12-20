@@ -20,14 +20,17 @@ class ServiceSlotAvailability
   {
     $range = (new SlotRangeGenerator($startAt, $endAt))->generate($this->service->duration);
 
-    $this->employees->each(function (Employee $employee) use ($startAt, $endAt, &$range) {
+    $this->employees->each(function (Employee $employee) use ($startAt, $endAt, &$range)
+    {
       $periods = (new ScheduleAvailbaility($employee, $this->service))
             ->forPeriod($startAt, $endAt);
 
       foreach($periods as $period) {
         $this->addAvailableEmployeeForPeriod($range, $period, $employee);
       }
+
     });
+    $range = $this->removeEmptySlots($range);
 
     return $range;
 
@@ -35,12 +38,27 @@ class ServiceSlotAvailability
 
   protected function addAvailableEmployeeForPeriod(SupportCollection $range, Period $period, Employee $employee)
   {
-    $range->each(function (Date $date) use ($period, $employee) {
-      $date->slots->each(function (Slot $slot) use ($period, $employee) {
-        if($period->contains($slot->time)) {
+    $range->each(function (Date $date) use ($period, $employee)
+    {
+      $date->slots->each(function (Slot $slot) use ($period, $employee)
+      {
+        if($period->contains($slot->time))
+        {
           $slot->addEmployee($employee);
         }
       });
+    });
+  }
+
+  protected function removeEmptySlots(SupportCollection $range)
+  {
+    return $range->filter(function (Date $date) {
+       $date->slots = $date->slots->filter(function (Slot $slot)
+       {
+        return $slot->hasEmployess();
+       });
+       
+       return true;
     });
   }
 }

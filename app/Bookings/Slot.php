@@ -20,5 +20,9 @@ class Slot
     $this->employee[] = $employee;
   }
 
+  public function hasEmployess(){
+    return !empty($this->employee);
+  }
+
 }
 
