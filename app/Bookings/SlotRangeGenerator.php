@@ -14,7 +14,7 @@ class SlotRangeGenerator
 
   public function generate(int $interval)
   {
-    $collection = collect();
+    $collection = new DateCollection();
 
     $days = CarbonPeriod::create($this->startAt, '1 day', $this->endAt);
 
