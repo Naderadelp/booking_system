@@ -2,6 +2,8 @@
 
 use App\Bookings\ServiceSlotAvailability;
 use App\Bookings\SlotRangeGenerator;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BookingEmployeeController;
 use App\Http\Controllers\EmployeeController;
 use App\Models\Employee;
 use App\Models\Service;
@@ -25,3 +27,7 @@ Route::get('/', function () {
     // $generator = (new SlotRangeGenerator(now()->startOfDay(), now()->addDay()->endOfDay()));
       // dd($generator->generate(30) );
 });
+
+Route::get('booking' , BookingController::class);
+
+Route::get('booking/{employee:slug}' , BookingEmployeeController::class)->name('booking.employee');
