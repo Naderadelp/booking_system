@@ -28,6 +28,6 @@ Route::get('/', function () {
       // dd($generator->generate(30) );
 });
 
-Route::get('booking' , BookingController::class);
+Route::get('booking' , BookingController::class)->name('booking');
 
 Route::get('booking/{employee:slug}' , BookingEmployeeController::class)->name('booking.employee');
